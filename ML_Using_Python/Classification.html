@@ -14164,6 +14164,849 @@ C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\ensemble\forest.py:246: Futur
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>2 strategies for creating a multiclass classifier from binary classifiers</p>
+<ul>
+<li>OvA - One versus all: classify the digits into 10 classes and train 10 binary classifiers, one for each digit. get the decision score from each classifier and select the class which outputs the highest score.</li>
+<li>OvO - One versus one: train the binary classifier for every paair of digits. if there are N classes, then we need to train N(N-1)/2 classifiers.</li>
+</ul>
+<p>Support Vector machines scale poorly with the size of training set so for this algorithm OvO is preferred since it is faster to train many algorithms on one training set than to train few classifiers on many large training sets.</p>
+<p>For most binary classifiers, OvA is preferred.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Creating-a-multiclass-classifier-from-binary-classifiers-using-OvA">Creating a multiclass classifier from binary classifiers using OvA<a class="anchor-link" href="#Creating-a-multiclass-classifier-from-binary-classifiers-using-OvA">&#182;</a></h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> <span class="c1">#sgd_clf</span>
+<span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[41]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([9], dtype=int64)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For the above algorithm, under the hood, scikit learn trained 10 binary classifiers and got their decision scores for the image and selected the class with the highest score</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="TO-see-that-scikit-learn-indeed-trains-10-binary-classifiers,-we-use-decision_function-to-return-10-scores,-1-per-class">TO see that scikit learn indeed trains 10 binary classifiers, we use decision_function to return 10 scores, 1 per class<a class="anchor-link" href="#TO-see-that-scikit-learn-indeed-trains-10-binary-classifiers,-we-use-decision_function-to-return-10-scores,-1-per-class">&#182;</a></h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#sgd_clf</span>
+
+<span class="n">some_digit_scores</span> <span class="o">=</span> <span class="n">sgd_clf</span><span class="o">.</span><span class="n">decision_function</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+<span class="n">some_digit_scores</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[44]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[-846573.96783425, -334136.90477277, -461748.96543531,
+        -197470.29859882,  -94954.78149796, -219741.10518294,
+        -846748.06720991, -298928.89337382, -563099.41054912,
+          13625.40971728]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">some_digit_scores</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[47]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>9</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">classes_</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[48]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=int64)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Forcing-the-scikit-learn-to-use-OneVsOneClassifier-or-OneVsRestClassifier">Forcing the scikit learn to use OneVsOneClassifier or OneVsRestClassifier<a class="anchor-link" href="#Forcing-the-scikit-learn-to-use-OneVsOneClassifier-or-OneVsRestClassifier">&#182;</a></h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="k">import</span> <span class="n">OneVsOneClassifier</span>
+<span class="c1">#sgd_Clf</span>
+
+<span class="n">ovo_sgd_clf</span> <span class="o">=</span> <span class="n">OneVsOneClassifier</span><span class="p">(</span><span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+<span class="n">ovo_sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">ovo_sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[50]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([9], dtype=int64)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ovo_sgd_clf</span><span class="o">.</span><span class="n">estimators_</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(45, 45)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="RandomForestClassifier-is-a-multiclass-classifier-so-Scikit-learn-does-not-have-to-do-OvO-or-OvA">RandomForestClassifier is a multiclass classifier so Scikit learn does not have to do OvO or OvA<a class="anchor-link" href="#RandomForestClassifier-is-a-multiclass-classifier-so-Scikit-learn-does-not-have-to-do-OvO-or-OvA">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> <span class="c1">#forest_clf</span>
+<span class="n">forest_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\ensemble\forest.py:246: FutureWarning: The default value of n_estimators will change from 10 in version 0.20 to 100 in 0.22.
+  &#34;10 in version 0.20 to 100 in 0.22.&#34;, FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[42]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([9], dtype=int64)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#forest_clf</span>
+
+<span class="n">some_digit_scores_forest</span> <span class="o">=</span> <span class="n">forest_clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+<span class="n">some_digit_scores_forest</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[46]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">some_digit_scores_forest</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[49]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>9</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Evaluating-these-classifiers">Evaluating these classifiers<a class="anchor-link" href="#Evaluating-these-classifiers">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#sgd_clf</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[55]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.86872625, 0.87639382, 0.87848177])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#forest_clf</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">forest_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[57]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.94116177, 0.93949697, 0.94374156])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Improving-the-accuracy-of-sgd_clf">Improving the accuracy of sgd_clf<a class="anchor-link" href="#Improving-the-accuracy-of-sgd_clf">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Accuracy is improved by scaling the inputs</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[61]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.90736853, 0.90884544, 0.91363705])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Error-Analysis-to-improve-the-performance-of-the-model">Error Analysis to improve the performance of the model<a class="anchor-link" href="#Error-Analysis-to-improve-the-performance-of-the-model">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Confusion-Matrix">Confusion Matrix<a class="anchor-link" href="#Confusion-Matrix">&#182;</a></h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#sgd_clf</span>
+
+<span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">conf_mx_sgd</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
+<span class="n">conf_mx_sgd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+C:\Users\diksh\Anaconda3\lib\site-packages\sklearn\linear_model\stochastic_gradient.py:166: FutureWarning: max_iter and tol parameters have been added in SGDClassifier in 0.19. If both are left unset, they default to max_iter=5 and tol=None. If tol is not None, max_iter defaults to max_iter=1000. From 0.21, default max_iter will be 1000, and default tol will be 1e-3.
+  FutureWarning)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[66]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[5726,    2,   26,   12,   11,   47,   47,    9,   39,    4],
+       [   1, 6479,   42,   33,    8,   39,    8,    9,  113,   10],
+       [  55,   35, 5319,  104,   79,   20,  106,   51,  174,   15],
+       [  45,   40,  145, 5372,    3,  210,   33,   50,  135,   98],
+       [  17,   26,   38,    8, 5361,    5,   57,   31,   86,  213],
+       [  74,   38,   43,  199,   71, 4584,  116,   26,  175,   95],
+       [  33,   22,   43,    2,   42,   90, 5640,    3,   43,    0],
+       [  24,   23,   73,   29,   60,   12,    4, 5774,   18,  248],
+       [  49,  165,   73,  150,   16,  153,   50,   24, 5038,  133],
+       [  39,   31,   26,   92,  163,   35,    3,  177,   79, 5304]],
+      dtype=int64)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">conf_mx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#focussing on the errors - </span>
+<span class="c1">## each value  in the confusion matrix is divided by the number of images in the corresponding class.</span>
+<span class="c1">## this helps us in comparing the error rates instead of absolute number of errors.</span>
+
+<span class="n">row_sums</span> <span class="o">=</span> <span class="n">conf_mx_sgd</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">norm_conf_mx</span> <span class="o">=</span> <span class="n">conf_mx</span> <span class="o">/</span> <span class="n">row_sums</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#filling the diagonals with 0 to keep only the errors and plotting the result</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">norm_conf_mx</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">norm_conf_mx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Rows represent the actual classes and columns represent the predicted classes.</p>
+<ul>
+<li>The columns for class 8 and 9 are quite bright -&gt; many images get misclassified as 8s or 9s</li>
+<li>The rows for class 8 and 9 are quite bright -&gt; 8s and 9s are often confused with other digits</li>
+</ul>
+
+</div>
+</div>
+</div>
     </div>
   </div>
 </body>
