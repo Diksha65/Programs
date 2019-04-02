@@ -1,10 +1,16 @@
 #!/bin/bash
+echo "Friends"
+echo "This script assumes that the srt file is already downloaded, is present in the same folder and has the same name as the media file"
+echo "To play friends successfully, you need to change the path variable inside the python file."
+echo "This is a temporary fix. This will be made more generic."
+echo "Enjoy watching"
+echo " "
 
 output=$(python friends.py 1>&1)
-echo $output
 video=$(echo $output | cut -d , -f 1)
 srt=$(echo $output | cut -d , -f 2)
-echo $video
-echo $srt
-vlc --fullscreen $video
+trimmedvideo="$(echo "$video" | xargs)"
+trimmedsrt="$(echo "$srt" | xargs)"
+vlc --fullscreen "${trimmedvideo}"
+
 
