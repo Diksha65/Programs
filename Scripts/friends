@@ -1,0 +1,10 @@
+#!/bin/bash
+
+output=$(python friends.py 1>&1)
+echo $output
+video=$(echo $output | cut -d , -f 1)
+srt=$(echo $output | cut -d , -f 2)
+echo $video
+echo $srt
+vlc --fullscreen $video
+

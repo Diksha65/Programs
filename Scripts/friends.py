@@ -2,7 +2,7 @@ import os, random, sys, vlc
 
 media_list = []
 srt_list=[]
-path = "/media/diksha/BUBBLES/Leisure Time/series/Friends"
+path = "/media/diksha/BUBBLES/Leisure_Time/series/Friends"
 
 def change_dir():
     os.chdir(path)
@@ -33,17 +33,19 @@ def select_random_file():
                 break
     return (media, srtfile)
 
-def play_episode():
+""" def play_episode():
     video, srt = select_random_file()
     instance = vlc.Instance('--fullscreen')
     player = instance.media_player_new()
     Media = instance.media_new(video)
     player.set_media(Media)
     #player.video_set_subtitle_file(srt)
-    player.play()
+    player.play() 
+"""
 
 def main():
-    play_episode()
+    video, srt = select_random_file()
+    print(video, ',', srt)
 
 if __name__ == "__main__":
     main() 
