@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,42 +11,39 @@
 
     <title>ToDo List</title>
   </head>
-  <body class="container text-center">
+
+  <body class="container">
     <h1>ToDo List</h1>
     <br>
-    <ul class="list-group" id="todoul"></ul>
+    <ul id="list-todo" class="list-unstyled">
+      <li>
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="checkbox">
+                </div>
+              </div>
+              <p class="form-control">Complete the todo list website</p>
+          </div>
+      </li>
+      <li>
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="checkbox">
+                </div>
+              </div>
+              <p class="form-control">Hit and Trial</p>
+          </div>
+      </li>
+    </ul>
     <br>
     <button class="btn btn-info" id="button-add">Add Item</button>
-    <script>
-        const todolist = document.getElementById("todoul")
-        function li(text) {
-            
-            const listitem=document.createElement("li")
-            listitem.className="list-group-item"
-
-            var checkbox=document.createElement('input')
-            checkbox.type="checkbox"
-            checkbox.id="id"
-            checkbox.value="name"
-            checkbox.checked=false
-
-            const textnode=document.createTextNode(text)
-            
-            listitem.appendChild(checkbox)
-            listitem.appendChild(textnode)
-            return listitem
-        }
-        const buttonAdd = document.getElementById("button-add")
-        buttonAdd.addEventListener('click', event => {
-            console.log("Clicked Add")
-            let prom = prompt("Write something")
-            //alert(`${prom}`)
-            todolist.appendChild(li(prom))
-        })
-    </script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
   </body>
+
 </html>
