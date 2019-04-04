@@ -22,16 +22,10 @@ const buttonAdd = document.getElementById("button-add")
 buttonAdd.addEventListener('click', event => {
     
 })
-<div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <input type="checkbox">
-                </div>
-              </div>
-              <p class="form-control">Complete the todo list website</p>
-          </div>
 
-function createlistItem() {
+function createlistItem(text) {
+    const listitem = document.createElement('li')
+
     const outerdiv = document.createElement('div')
     outerdiv.className = "input-group mb-3"
 
@@ -45,7 +39,9 @@ function createlistItem() {
     checkbox.type = "checkbox"
     checkbox.checked = onChecked;
 
+    const textitem = document.createTextNode(text)
     
+    middlediv.appendChild(innerdiv, checkbox)
 }
 
 function createInputElement(onSubmit, onCancel) {
