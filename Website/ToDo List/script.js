@@ -18,9 +18,43 @@ function li(text) {
 }
 */
 
+const buttonAlert = document.getElementById("button-alert")
+buttonAlert.addEventListener('click', event => {
+    
+    const listitem = document.getElementById('4thApril-task1')
+    const newlistitem = document.createElement('li')
+    newlistitem.id="4thAprilalert"
+
+    const divitem = document.createElement('div')
+    divitem.classList.add("alert", "alert-dark", "alert-dismissible", "fade", "show")
+    divitem.role = "alert"
+
+    const textItem = document.createTextNode('Task for 4th April')
+
+    divitem.appendChild(textItem)
+    newlistitem.appendChild(divitem)
+    listitem.prepend(newlistitem)
+})
+
+const buttonDismiss = document.getElementById("button-dismiss")
+buttonDismiss.addEventListener('click', (event) => {
+    const element = document.getElementById('4thAprilalert')
+    element.parentNode.removeChild(element)
+})
+
 const buttonAdd = document.getElementById("button-add")
 buttonAdd.addEventListener('click', event => {
     
+    var onSubmit = (event) => {
+        const edittext = document.getElementById(`id1`)
+        const value = edittext.value
+        if(value === "")
+            alert("Enter something or press cancel.")
+        else {
+            $('#4thAprilalert').alert('close')
+        }
+        
+    }
 })
 
 function createlistItem(text) {
@@ -41,10 +75,12 @@ function createlistItem(text) {
 
     const textitem = document.createTextNode(text)
     
-    middlediv.appendChild(innerdiv, checkbox)
 }
 
+
 function createInputElement(onSubmit, onCancel) {
+    const listitem = document.createElement('id')
+
     const outerdiv = document.createElement('div')
     outerdiv.className = "input-group mb-3"
 
@@ -53,6 +89,7 @@ function createInputElement(onSubmit, onCancel) {
     edittext.placeholder = "Enter you todo item"
     edittext.required = true
     edittext.type = "text"
+    edittext.id = "id1"
 
     const innerdiv = document.createElement('div');
     innerdiv.className = "input-group-append";
@@ -69,8 +106,10 @@ function createInputElement(onSubmit, onCancel) {
     cancelbutton.innerText = "Cancel"
     cancelbutton.onclick = onCancel;
 
-    innerdiv.appendChild(submitbutton, cancelbutton)
-    outerdiv.appendChild(edittext, innerdiv)
+    innerdiv.appendChild(submitbutton) 
+    innerdiv.appendChild(cancelbutton)
+    outerdiv.appendChild(edittext) 
+    outerdiv.appendChild(innerdiv)
 
     return outerdiv
 }
