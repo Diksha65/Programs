@@ -17,32 +17,44 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form data-coffee-order="form">
+                        
                         <div class="form-group">
-                            <label for="CoffeeOrder">Coffee Order</label>
+                            <label for="CoffeeOrder"><strong>Coffee Order:</strong></label>
                             <input class="form-control" name="coffee" id="CoffeeOrder" autofocus>
                         </div>
-                        <div class="form=group">
-                            <label for="emailinput">Email</label>
+                        
+                        <div class="form-group">
+                            <label for="emailinput"><strong>Email:</strong></label>
                             <input class="form-control" type="email" name="emailAddress" 
                                     id="emailInput" value="" placeholder="drinker@who.com">
                         </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="size" value="short">Short
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="size" value="tall" checked>Tall
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="size" value="grande">Grande
-                            </label>
-                        </div>
+                        
                         <div class="form-group">
-                            <label for="flavorShot">Flavor Shot</label>
+                            <label for="coffeeSize"><strong>Coffee Size:</strong></label>
+                            <div class="custom-control custom-radio custom-control-inline" id="coffeeSize">
+                                <label>
+                                    <input type="radio" name="size" value="short">Short
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline" id="coffeeSize">
+                                <label>
+                                    <input type="radio" name="size" value="tall" checked>Tall
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline" id="coffeeSize">
+                                <label>
+                                    <input type="radio" name="size" value="grande">Grande
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline" id="coffeeSize">
+                                    <label>
+                                        <input type="radio" name="size" value="coffeezilla">Coffee-Zilla
+                                    </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="flavorShot"><strong>Flavor Shot:</strong></label>
                             <select name="flavor" id="flavorShot" class="form-control">
                                 <option value="">None</option>
                                 <option value="caramel">Caramel</option>
@@ -50,17 +62,69 @@
                                 <option value="mocha">Mocha</option>
                             </select>
                         </div>
+
                         <div class="form-group">
-                            <label for="strengthLevel">Caffine Rating</label>
-                            <input type="range" name="strength" id="strengthLevel" value="30">
+                            <label for="strengthLevel"><strong>Caffine Rating: </strong></label>
+                            <input name="strength" id="strengthLevel" type="range" value="30">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                        <button type="reset" class="btn btn-default">Reset</button>
+                        
+                        <div class="form-group" id="coffeePowerUp">
+                            <label for="PowerUp"><strong>Coffee Power Ups: </strong></label>
+                            <div class="form-check form-check">
+                                <input class="form-check-input" type="checkbox" id="powerUp1" name="powerup" value="timetravel">
+                                <label class="form-check-label" for="powerUp1">Time Travel</label>
+                            </div>
+                            <div class="form-check form-check">
+                                <input class="form-check-input" type="checkbox" id="powerUp2" name="powerup" value="mindreading">
+                                <label class="form-check-label" for="powerUp2">Mind Reading</label>
+                            </div>
+                            <div class="form-check form-check">
+                                <input class="form-check-input" type="checkbox" id="powerUp3" name="powerup" value="bugfreecode">
+                                <label class="form-check-label" for="powerUp3">Bug Free Code</label>
+                            </div>
+                            <div class="form-check form-check">
+                                <input class="form-check-input" type="checkbox" id="powerUp4" name="powerup" value="dreamtoreality">
+                                <label class="form-check-label" for="powerUp4">Dream To Reality</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="reset" class="btn btn-dark">Reset</button>
                     </form>
                 </div>
             </div>
-        </section>
 
+            <div class="panel panel-outline">
+                <div class="panel-body">
+                    <h4>Pending Orders: </h4>
+                    <div data-coffee-order="checklist">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Bonanza!!</h4>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                  <button type="powerUp" class="btn btn-outline-dark" id="getPowerUp" data-dismiss="modal">Yaayyy!!!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="scripts/checklist.js" charset="utf-8"></script>
+        <script src="scripts/formhandler.js" charset="utf-8"></script>
         <script src="scripts/datastore.js" charset="utf-8"></script>
         <script src="scripts/truck.js" charset="utf-8"></script>
         <script src="scripts/main.js" charset="utf-8"></script>
@@ -69,4 +133,6 @@
 
 <!--
     <div>'s are general purpose block level containers
+    
+    Adding  the script for jquery created a function named jQuery as well as a variable named $ pointing to that function.
 -->
