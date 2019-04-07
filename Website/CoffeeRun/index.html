@@ -5,7 +5,11 @@
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+        <style>
+            form :focus:required:invalid {
+                border-color: #a94442
+            }
+        </style>
         <title>Coffee Run</title>
     </head>
     <body class="container">
@@ -18,18 +22,18 @@
                 <div class="panel-body">
                     <form data-coffee-order="form">
                         
-                        <div class="form-group">
+                        <div class="form-group" id="coffeename">
                             <label for="CoffeeOrder"><strong>Coffee Order:</strong></label>
-                            <input class="form-control" name="coffee" id="CoffeeOrder" autofocus>
+                            <input class="form-control" name="coffee" id="CoffeeOrder" autofocus required pattern="[a-zA-Z\s]+">
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id="emailaddress">
                             <label for="emailinput"><strong>Email:</strong></label>
                             <input class="form-control" type="email" name="emailAddress" 
-                                    id="emailInput" value="" placeholder="drinker@who.com">
+                                    id="emailInput" value="" placeholder="drinker@who.com" required>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id="coffeesize">
                             <label for="coffeeSize"><strong>Coffee Size:</strong></label>
                             <div class="custom-control custom-radio custom-control-inline" id="coffeeSize">
                                 <label>
@@ -53,7 +57,7 @@
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id="flavorshot">
                             <label for="flavorShot"><strong>Flavor Shot:</strong></label>
                             <select name="flavor" id="flavorShot" class="form-control">
                                 <option value="">None</option>
@@ -63,29 +67,9 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="flavorshot">
                             <label for="strengthLevel"><strong>Caffine Rating: </strong></label>
                             <input name="strength" id="strengthLevel" type="range" value="30">
-                        </div>
-                        
-                        <div class="form-group" id="coffeePowerUp">
-                            <label for="PowerUp"><strong>Coffee Power Ups: </strong></label>
-                            <div class="form-check form-check">
-                                <input class="form-check-input" type="checkbox" id="powerUp1" name="powerup" value="timetravel">
-                                <label class="form-check-label" for="powerUp1">Time Travel</label>
-                            </div>
-                            <div class="form-check form-check">
-                                <input class="form-check-input" type="checkbox" id="powerUp2" name="powerup" value="mindreading">
-                                <label class="form-check-label" for="powerUp2">Mind Reading</label>
-                            </div>
-                            <div class="form-check form-check">
-                                <input class="form-check-input" type="checkbox" id="powerUp3" name="powerup" value="bugfreecode">
-                                <label class="form-check-label" for="powerUp3">Bug Free Code</label>
-                            </div>
-                            <div class="form-check form-check">
-                                <input class="form-check-input" type="checkbox" id="powerUp4" name="powerup" value="dreamtoreality">
-                                <label class="form-check-label" for="powerUp4">Dream To Reality</label>
-                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-dark">Submit</button>
@@ -123,6 +107,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="scripts/validation.js" charset='utf-8'></script>
         <script src="scripts/checklist.js" charset="utf-8"></script>
         <script src="scripts/formhandler.js" charset="utf-8"></script>
         <script src="scripts/datastore.js" charset="utf-8"></script>
