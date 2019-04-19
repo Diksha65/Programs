@@ -6,12 +6,33 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "browserify -d app/scripts/src/app.js -o app/scripts/dist/main.js",
+    "watch": "watchify -v -d app/scripts/src/main.js -o app/scripts/dist/main.js"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ],
+          "sourceMap": true
+        }
+      ]
+    ]
   },
   "author": "Diksha",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.18.11"
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "babel-core": "^6.26.3",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.3",
+    "jquery": "^3.4.0",
+    "nodemon": "^1.18.11",
+    "watchify": "^3.11.1"
   },
   "dependencies": {
     "ws": "^6.2.1"

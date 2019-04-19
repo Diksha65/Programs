@@ -7,6 +7,8 @@ var fs = require('fs')
 //importing the extractFilePath function created in extract.js
 var extract = require('./extract')
 
+var wwss = require('./websockets-server')
+
 var handleError = function(err, res) {
     res.writeHead(404)
     res.end()
@@ -41,5 +43,7 @@ The package.json file acts as Node project's manifest.
 npm init -> this command creates a default package.json file for the project.
 
 "node index.js" -> lets us start the Node server by running npm start at the beginning of the command line.
+
+wscat npm module - tool for connecting to and communicating with a websockets server
 
 */
