@@ -1,4 +1,3 @@
-//Program to add N bit numbers
 #include<iostream>
 #include<vector>
 #include<algorithm>
