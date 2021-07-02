@@ -31,10 +31,14 @@ class LinkedList {
     void findNthToLastElementTwoPasses(int n);
     void findNthToLastElementSinglePass(int n);
     void findNthToLastElement(int n);
-    
+    void removeNthFromEnd(int n);
 };
 
 void LinkedList::print(string s) {
+    if(head == NULL) {
+        cout<<s<<": []\n";
+        return;
+    }
     Node *temp = head;
     
     cout<<s<<": ";
@@ -79,7 +83,7 @@ void LinkedList::findNthToLastElementTwoPasses(int n) {
         cout<<n<<" is greater than the list size\n";
         return;
     }
-    int pos = size-n;
+    int pos = size-n+1;
     curr = head;
     for(int i=1;i<pos;i++) {
         curr = curr->next;
@@ -114,6 +118,39 @@ void LinkedList::findNthToLastElementSinglePass(int n) {
     fast = NULL;
 }
 
+void LinkedList::removeNthFromEnd(int n) {
+    if(head == NULL) {
+        cout<<"The list is empty\n";
+        return;
+    }
+    
+    Node *prev=NULL, *slow=head, *fast=head;
+    
+    for(int i=1;i<n;i++) {
+        fast=fast->next;    
+        if(fast==NULL) {
+            cout<<n<<" is greater than the size of the list\n";
+            return;
+        }
+    }
+    
+    while(fast->next!=NULL) {
+        prev=slow;
+        slow=slow->next;
+        fast=fast->next;
+    }
+    
+    if(prev == NULL) {
+        //Only element
+        head = slow->next;
+    } else {
+        prev->next = slow->next;
+    }
+    slow=NULL;
+    fast=NULL;
+    print("removeNthFromEnd("+to_string(n)+")");
+}
+
 void LinkedList::findNthToLastElement(int n) {
     //Using 2 passes
     cout<<"2 passes ---\n";
@@ -140,5 +177,14 @@ int main()
     ll.findNthToLastElement(1);
     ll.findNthToLastElement(5);
     ll.findNthToLastElement(6);
+    ll.removeNthFromEnd(5);
+    ll.removeNthFromEnd(3);
+    ll.removeNthFromEnd(3);
+    ll.removeNthFromEnd(3);
+    ll.removeNthFromEnd(3);
+    ll.removeNthFromEnd(3);
+    ll.removeNthFromEnd(3);
+    
+    
     return 0;
 }
