@@ -27,6 +27,8 @@ class LinkedList {
     
     //Inserting into the list
     void insert(int val);
+    
+    //Detect cycle in list
     bool hasCycle();
 };
 

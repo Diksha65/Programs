@@ -112,6 +112,7 @@ void LinkedList::mergeWithAnotherSortedList(LinkedList ll1) {
         temp = mergeWithAnotherSortedListUtil(ll1.head, head);
     }
     
+    //printing
     cout<<"mergeWithAnotherSortedList: ";
     cout<<temp->info;
     while(temp->next!=NULL) {
