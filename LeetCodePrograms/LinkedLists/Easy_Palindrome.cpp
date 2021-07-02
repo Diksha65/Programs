@@ -29,8 +29,10 @@ class LinkedList {
     
     //Getting some data from the list
     int getNumber();
-    bool isPalindrome();
-    
+    bool isPalindromeUsingNumberInList();
+    bool isPalindromeUsingStack();
+    bool isPalindromeUsingRecursion();
+    void isPalindrome();
 };
 
 void LinkedList::print(string s) {
@@ -71,7 +73,7 @@ int LinkedList::getNumber() {
     return n;
 }
 
-bool LinkedList::isPalindrome() {
+bool LinkedList::isPalindromeUsingNumberInList() {
     //Using string and getNumber()
     string s = to_string(getNumber());
     int i=0, j=s.size()-1;
@@ -83,7 +85,9 @@ bool LinkedList::isPalindrome() {
         }
     }
     return true;
-    
+}
+
+bool LinkedList::isPalindromeUsingStack() {
     //Using stack
     stack<int> st;
     Node *cur = head;
@@ -102,9 +106,22 @@ bool LinkedList::isPalindrome() {
         }
     }
     return true;
-    
-    //Using Recusrion
-    
+}
+
+bool LinkedList::isPalindromeUsingRecursion() {
+    //Using Recursion
+    return true;
+}
+
+void LinkedList::isPalindrome() {
+    //Using string and getNumber()
+    cout<<"Checking palindrome using number in list: "<<isPalindromeUsingNumberInList()<<"\n";
+
+    //Using stack
+    cout<<"Checking palindrome using stack: "<<isPalindromeUsingStack()<<"\n";
+
+    //Using recursion
+    cout<<"Checking palindrome using recursion: "<<isPalindromeUsingRecursion()<<"\n";
 }
 
 int main()
@@ -114,7 +131,7 @@ int main()
     ll1.insert(2);
     ll1.insert(2);
     ll1.insert(1); 
-    cout<<"Palindrome: "<<ll1.isPalindrome()<<"\n";
+    ll1.isPalindrome();
    
     return 0;
 }
