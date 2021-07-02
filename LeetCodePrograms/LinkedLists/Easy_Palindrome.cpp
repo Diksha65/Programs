@@ -31,7 +31,7 @@ class LinkedList {
     int getNumber();
     bool isPalindromeUsingNumberInList();
     bool isPalindromeUsingStack();
-    bool isPalindromeUsingRecursion();
+    bool isPalindromeByReversing();
     void isPalindrome();
 };
 
@@ -88,7 +88,7 @@ bool LinkedList::isPalindromeUsingNumberInList() {
 }
 
 bool LinkedList::isPalindromeUsingStack() {
-    //Using stack
+    //Using stackL O(n) time O(n) space
     stack<int> st;
     Node *cur = head;
     while(cur!=NULL) {
@@ -108,9 +108,52 @@ bool LinkedList::isPalindromeUsingStack() {
     return true;
 }
 
-bool LinkedList::isPalindromeUsingRecursion() {
-    //Using Recursion
-    return true;
+bool compare(Node *a, Node *b) {
+    if(a == NULL & b == NULL) return true;
+    return a && b && (a->info == b->info) && compare(a->next, b->next);
+}
+
+Node* getMiddleElement(Node *head, bool &odd) {
+    Node *prev=NULL, *slow=head, *fast = head;
+
+    while(fast != NULL && fast->next != NULL) {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    if(fast != NULL) {
+        //Its odd
+        odd = true;
+    }
+
+    //This is done specifically for this case where we want to compare 2 halves of a list
+    prev->next = NULL;
+
+    return odd ? slow->next : slow;
+}
+
+Node* reverse(Node *head) {
+    Node *prev = NULL, *curr=head, *next=NULL;
+
+    while(curr!=NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+}
+
+bool LinkedList::isPalindromeByReversing() {
+    //By reversing
+    bool odd = false;
+    Node *mid = getMiddleElement(head, odd);
+
+    Node *reverseListHead = reverse(mid);
+
+    return compare(head, reverseListHead);
 }
 
 void LinkedList::isPalindrome() {
@@ -120,8 +163,8 @@ void LinkedList::isPalindrome() {
     //Using stack
     cout<<"Checking palindrome using stack: "<<isPalindromeUsingStack()<<"\n";
 
-    //Using recursion
-    cout<<"Checking palindrome using recursion: "<<isPalindromeUsingRecursion()<<"\n";
+    //By reversing
+    cout<<"Checking palindrome by reversing: "<<isPalindromeByReversing()<<"\n";
 }
 
 int main()
@@ -129,7 +172,8 @@ int main()
     LinkedList ll1;
     ll1.insert(1);
     ll1.insert(2);
-    ll1.insert(2);
+    ll1.insert(3);
+    ll1.insert(2); 
     ll1.insert(1); 
     ll1.isPalindrome();
    
