@@ -59,8 +59,8 @@ class Tree {
   void getMinMaxOfBT();
   
   //Search in BT and BST
-  bool searchInBSTIteratively(int n);
-  bool searchInBSTRecursively(Node *r, int n);
+  Node* searchInBSTIteratively(int n);
+  Node* searchInBSTRecursively(Node *r, int n);
   void searchInBST(int n);
   void searchInBT(int n);
 };
@@ -460,13 +460,12 @@ void Tree::getMinMaxOfBT() {
     cout<<"\nMaximum element of BT: "<<max<<"\n";
 }
 
-
-bool Tree::searchInBSTIteratively(int n) {
+Node* Tree::searchInBSTIteratively(int n) {
     Node *temp = root;
     
     while(temp != NULL) {
         if(temp->info == n) {
-            return true;
+            return temp;
         } else if(temp->info > n) {
             temp = temp->left;    
         } else {
@@ -474,13 +473,13 @@ bool Tree::searchInBSTIteratively(int n) {
         }
     }
     
-    return false;
+    return NULL;
 }
 
-bool Tree::searchInBSTRecursively(Node *r, int n) {
-    if(r == NULL) return false;
-    if(r->info == n) return true;
-    if(r->left == NULL && r->right == NULL) return false;
+Node* Tree::searchInBSTRecursively(Node *r, int n) {
+    if(r == NULL) return NULL;
+    if(r->info == n) return r;
+    if(r->left == NULL && r->right == NULL) return NULL;
     
     if(r->info > n) {
         return searchInBSTRecursively(r->left, n);
@@ -495,17 +494,29 @@ void Tree::searchInBST(int n) {
         return;
     }
     
-    cout<<"Searching result for "<<n<<" in BST (using recursion): "<<searchInBSTRecursively(root, n)<<"\n";
-    cout<<"Searching result for "<<n<<" in BST (using iteration): "<<searchInBSTIteratively(n)<<"\n";
+    Node *nodeIterative = searchInBSTIteratively(n);
+    Node *nodeRecursive = searchInBSTRecursively(root, n);
+    
+    if(nodeIterative == NULL) {
+        cout<<"Searching result for "<<n<<" in BST (using recursion): FALSE";
+    } else {
+        cout<<"Searching result for "<<n<<" in BST (using recursion): TRUE";
+    }
+    
+    if(nodeRecursive == NULL) {
+        cout<<"\nSearching result for "<<n<<" in BST (using iteration): FALSE";
+    } else {
+        cout<<"\nSearching result for "<<n<<" in BST (using iteration): TRUE";
+    }
 }
   
-bool searchInBTUtil(Node *r, int n) {
+Node* searchInBTUtil(Node *r, int n) {
     if(r!=NULL) {
-        if(r->info == n) return true;
+        if(r->info == n) return r;
         searchInBTUtil(r->left, n);
         searchInBTUtil(r->right, n);
     }    
-    return false;
+    return NULL;
 }  
 
 void Tree::searchInBT(int n) {
@@ -514,9 +525,13 @@ void Tree::searchInBT(int n) {
         return;
     }
     
-    cout<<"Searching result for "<<n<<" in BT: "<<searchInBTUtil(root, n);
+    Node *r = searchInBTUtil(root, n);
+    if(r == NULL) {
+        cout<<"Searching result for "<<n<<" in BT: FALSE";
+    } else {
+        cout<<"Searching result for "<<n<<" in BT: TRUE";
+    }
 }  
-
 
 int main()
 {
@@ -552,7 +567,7 @@ int main()
     t1.isValidBST();
     t1.maxDepth();
     t1.getMinMaxOfBT();
-    t1.searchInBT(17);
+    t1.searchInBT(10);
    
    return 0;
 }
