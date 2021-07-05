@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-//Graph using adjacency list (Mostly all for directed graph)
+//Graph using adjacency list
 class Graph {
     map<int, vector<int>> adjList;
     
@@ -16,6 +16,7 @@ class Graph {
     void printGraph();
     
     //Applications of DFS
+    //1. Detect cycle in graph
     void isDirectedGraphCyclic();
     void isUnDirectedGraphCyclic();
 };
