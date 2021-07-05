@@ -45,13 +45,12 @@ void DFSUtil(
     ) {
         
     visited[source] = true;
+    res.push_back(source);
     
     for(auto x: adjList[source]) {
         if(!visited[x])
             DFSUtil(x, visited, res, adjList);
     }
-    
-    res.push_back(source);
 }
 
 void Graph::DFS(int source) {
